@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.anfly.weizixun.R;
 import com.anfly.weizixun.base.BaseActivity;
+import com.anfly.weizixun.base.BaseMvpActivity;
 import com.anfly.weizixun.bean.LoginBean;
 import com.anfly.weizixun.model.LoginMdel;
 import com.anfly.weizixun.presenter.LoginPresenter;
@@ -16,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity<LoginPresenter, LoginView> implements LoginView {
+public class LoginActivity extends BaseMvpActivity<LoginPresenter, LoginView> implements LoginView {
 
     @BindView(R.id.et_name)
     EditText etName;

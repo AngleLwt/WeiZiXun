@@ -11,8 +11,8 @@ import com.anfly.weizixun.common.WzxApplication;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseActivity<P extends BasePresenter, V extends BaseView> extends AppCompatActivity {
-    protected P mPresenter;
+public abstract class BaseActivity extends AppCompatActivity {
+
     private Unbinder bind;
 
     @Override
@@ -20,30 +20,25 @@ public abstract class BaseActivity<P extends BasePresenter, V extends BaseView> 
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         bind = ButterKnife.bind(this);
-
-        mPresenter = initMvpPresenter();
-        if (mPresenter != null) {
-            mPresenter.setmView(initMvpView());
-        }
-
+        initMvp();
         initView();
         initData();
         initListener();
     }
 
-    protected abstract V initMvpView();
-
-    protected abstract P initMvpPresenter();
-
-    private void initListener() {
+    protected void initMvp() {
 
     }
 
-    private void initData() {
+    protected void initListener() {
 
     }
 
-    private void initView() {
+    protected void initData() {
+
+    }
+
+    protected void initView() {
 
     }
 
@@ -53,7 +48,6 @@ public abstract class BaseActivity<P extends BasePresenter, V extends BaseView> 
     protected void onDestroy() {
         super.onDestroy();
         bind.unbind();
-        mPresenter.onDestroy();
     }
 
     public void toast(String msg) {
