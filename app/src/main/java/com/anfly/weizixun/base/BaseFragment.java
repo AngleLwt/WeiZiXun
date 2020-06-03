@@ -13,8 +13,8 @@ import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseFragment<P extends BasePresenter, V extends BaseView> extends Fragment {
-    protected P mPresenter;
+public abstract class BaseFragment extends Fragment {
+
     private Unbinder bind;
 
     @Nullable
@@ -24,15 +24,15 @@ public abstract class BaseFragment<P extends BasePresenter, V extends BaseView> 
 
         bind = ButterKnife.bind(this, view);
 
-        mPresenter = initMvpPresenter();
-        if (mPresenter != null) {
-            mPresenter.setmView(initMvpView());
-        }
-
+        initMvp();
         initView();
         initData();
         initListener();
         return view;
+    }
+
+    public void initMvp() {
+
     }
 
     @Override
@@ -40,10 +40,6 @@ public abstract class BaseFragment<P extends BasePresenter, V extends BaseView> 
         super.onDestroy();
         bind.unbind();
     }
-
-    protected abstract V initMvpView();
-
-    protected abstract P initMvpPresenter();
 
     private void initListener() {
 

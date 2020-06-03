@@ -10,7 +10,7 @@ import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class RxUtls {
+public class RxUtil {
     /**
      * 普通切换
      * @param <T>
