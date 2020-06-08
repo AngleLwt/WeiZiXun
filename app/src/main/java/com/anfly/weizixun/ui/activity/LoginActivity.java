@@ -1,9 +1,13 @@
 package com.anfly.weizixun.ui.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.anfly.weizixun.R;
 import com.anfly.weizixun.base.BaseActivity;

@@ -7,6 +7,7 @@ public class WzxApplication extends Application {
 
     public static WzxApplication getApplication() {
         return application;
+        //appkey:5edd92e3978eea085d11d57f
     }
 
     @Override
