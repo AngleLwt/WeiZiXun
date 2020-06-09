@@ -16,7 +16,9 @@ import androidx.core.app.ActivityCompat;
 import com.anfly.weizixun.R;
 import com.anfly.weizixun.base.BaseMvpActivity;
 import com.anfly.weizixun.bean.LoginBean;
+import com.anfly.weizixun.common.Constants;
 import com.anfly.weizixun.presenter.LoginPresenter;
+import com.anfly.weizixun.utils.SharedPreferencesUtils;
 import com.anfly.weizixun.view.LoginView;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
@@ -84,17 +86,24 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter, LoginView> im
     }
 
     private void initPermission() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,};
-            ActivityCompat.requestPermissions(this, mPermissionList, 123);
-        }
+        String[] pers = {
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        };
+        ActivityCompat.requestPermissions(this, pers, 100);
     }
 
     @Override
     protected void initView() {
         super.initView();
         initPermission();
+        if (EMClient.getInstance().isLoggedInBefore()) {
+            goToMainActivity();
+        }
     }
 
     private void share() {
@@ -186,8 +195,8 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter, LoginView> im
                     @Override
                     public void run() {
                         Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        SharedPreferencesUtils.setParam(LoginActivity.this, Constants.NAME, name);
+                        goToMainActivity();
                     }
                 });
             }
@@ -208,6 +217,12 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter, LoginView> im
 
             }
         });
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void login(SHARE_MEDIA media) {

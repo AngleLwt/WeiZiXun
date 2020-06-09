@@ -6,4 +6,5 @@ public interface Constants {
     boolean IS_DEBUG = true;
 
     String CACHE_NAME = "cache";
+    String NAME = "NAME";
 }
