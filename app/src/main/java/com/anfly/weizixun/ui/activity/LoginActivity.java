@@ -18,6 +18,8 @@ import com.anfly.weizixun.base.BaseMvpActivity;
 import com.anfly.weizixun.bean.LoginBean;
 import com.anfly.weizixun.presenter.LoginPresenter;
 import com.anfly.weizixun.view.LoginView;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -143,13 +145,17 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter, LoginView> im
     };
 
 
-    @OnClick({R.id.btn_login, R.id.btn_share, R.id.iv_qq, R.id.iv_wx, R.id.iv_sina,R.id.btn_register})
+    @OnClick({R.id.btn_login, R.id.btn_share, R.id.iv_qq, R.id.iv_wx, R.id.iv_sina, R.id.btn_register
+            , R.id.btn_login_im})
     public void onViewClicked(View view) {
+        String name = etName.getText().toString().trim();
+        String pwd = etPwd.getText().toString().trim();
         switch (view.getId()) {
             case R.id.btn_login:
-                String name = etName.getText().toString().trim();
-                String pwd = etPwd.getText().toString().trim();
                 mPresenter.login(name, pwd);
+                break;
+            case R.id.btn_login_im:
+                loginIM(name, pwd);
                 break;
             case R.id.btn_share:
                 share();
@@ -167,6 +173,41 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter, LoginView> im
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
         }
+    }
+
+    private void loginIM(String name, String pwd) {
+        EMClient.getInstance().login(name, pwd, new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                EMClient.getInstance().groupManager().loadAllGroups();
+                EMClient.getInstance().chatManager().loadAllConversations();
+                Log.e("TAG", "登录成功！");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Log.e("TAG", "登录失败：" + s);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onProgress(int i, String s) {
+
+            }
+        });
     }
 
     public void login(SHARE_MEDIA media) {

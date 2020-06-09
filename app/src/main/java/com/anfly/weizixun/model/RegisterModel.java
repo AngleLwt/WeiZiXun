@@ -15,7 +15,7 @@ public class RegisterModel extends BaseModel {
                          String typeid,
                          RegisterCallback callback) {
         HttpManager.getHttpManager().getApiService(ApiService.baseUrl, ApiService.class)
-                .register(userid, psd, accessToken, typeid)
+                .register(userid, psd, "", "")
                 .compose(RxUtil.rxFlowableTransformer())
                 .subscribe(new BaseObserver<RegisterBean>() {
                     @Override

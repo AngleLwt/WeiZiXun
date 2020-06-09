@@ -1,16 +1,18 @@
 package com.anfly.weizixun.ui.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.anfly.weizixun.R;
 import com.anfly.weizixun.base.BaseMvpActivity;
 import com.anfly.weizixun.bean.RegisterBean;
 import com.anfly.weizixun.presenter.RegisterPresenter;
 import com.anfly.weizixun.view.RegisterView;
-
-import java.util.function.Predicate;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +26,8 @@ public class RegisterActivity extends BaseMvpActivity<RegisterPresenter, Registe
     EditText etPwd;
     @BindView(R.id.btn_register)
     Button btnRegister;
+    @BindView(R.id.btn_register_im)
+    Button btnRegisterIm;
 
     @Override
     protected int getLayoutId() {
@@ -52,10 +56,51 @@ public class RegisterActivity extends BaseMvpActivity<RegisterPresenter, Registe
         toast(error);
     }
 
-    @OnClick(R.id.btn_register)
-    public void onViewClicked() {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+    @OnClick({R.id.btn_register, R.id.btn_register_im})
+    public void onViewClicked(View view) {
         String name = etName.getText().toString().trim();
         String pwd = etPwd.getText().toString().trim();
-        mPresenter.register(name, pwd, "", "");
+        switch (view.getId()) {
+            case R.id.btn_register:
+                mPresenter.register(name, pwd, "", "");
+                break;
+            case R.id.btn_register_im:
+                register(name, pwd);
+                break;
+        }
+    }
+
+    private void register(String name, String pwd) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    EMClient.getInstance().createAccount(name, pwd);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    finish();
+                } catch (HyphenateException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(RegisterActivity.this, "注册失败：" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

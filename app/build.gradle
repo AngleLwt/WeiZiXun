@@ -5,6 +5,8 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    useLibrary 'org.apache.http.legacy'
+
     defaultConfig {
         applicationId "com.anfly.weizixun"
         minSdkVersion 16
@@ -48,6 +50,11 @@ android {
         targetGenDir 'src/main/java'  //存放位置
     }
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 
 }
 
@@ -86,4 +93,5 @@ dependencies {
     implementation files('libs/umeng-share-wechat-simplify-6.9.6.jar')
     implementation files('libs/umeng-shareboard-widget-6.9.6.jar')
     implementation files('libs/umeng-sharetool-6.9.6.jar')
+    implementation files('libs/hyphenatechat_3.6.0.jar')
 }
