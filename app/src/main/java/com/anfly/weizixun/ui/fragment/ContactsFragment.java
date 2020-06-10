@@ -15,6 +15,7 @@ import com.anfly.weizixun.R;
 import com.anfly.weizixun.adapter.UsersAdapter;
 import com.anfly.weizixun.common.Constants;
 import com.anfly.weizixun.ui.activity.ChatActivity;
+import com.anfly.weizixun.utils.SharedPreferencesUtils;
 import com.hyphenate.chat.EMContact;
 
 import java.util.ArrayList;
@@ -48,11 +49,21 @@ public class ContactsFragment extends Fragment {
     }
 
     private void initData() {
+
+        String curName = (String) SharedPreferencesUtils.getParam(getActivity(), Constants.NAME, "a");
         ArrayList<String> names = new ArrayList<>();
 
-        names.add("a");
-        names.add("b");
-        names.add("c");
+        if (!curName.equals("a")) {
+            names.add("a");
+        }
+
+        if (!curName.equals("b")) {
+            names.add("b");
+        }
+
+        if (!curName.equals("c")) {
+            names.add("c");
+        }
 
         if (list.size() <= 0) {
             list.addAll(names);

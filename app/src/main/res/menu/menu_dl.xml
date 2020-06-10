@@ -6,4 +6,7 @@
     <item
         android:id="@+id/item_wechat"
         android:title="微信精选" />
+    <item
+        android:id="@+id/item_group"
+        android:title="群聊" />
 </menu>

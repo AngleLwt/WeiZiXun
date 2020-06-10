@@ -1,7 +1,9 @@
 package com.anfly.weizixun.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -181,12 +183,25 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-    }
+        //侧滑
+        nvMain.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.item_zhihu:
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+                        break;
+                    case R.id.item_wechat:
+
+                        break;
+                    case R.id.item_group:
+                        Intent intent = new Intent(MainActivity.this, ChatGrouopActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+                return false;
+            }
+        });
+
     }
 }
