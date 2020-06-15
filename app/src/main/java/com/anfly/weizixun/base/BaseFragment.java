@@ -41,15 +41,15 @@ public abstract class BaseFragment extends Fragment {
         bind.unbind();
     }
 
-    private void initListener() {
+    public void initListener() {
 
     }
 
-    private void initData() {
+    public void initData() {
 
     }
 
-    private void initView() {
+    public void initView() {
 
     }
 

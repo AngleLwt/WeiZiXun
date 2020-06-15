@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.anfly.weizixun.R;
 import com.anfly.weizixun.ui.activity.LoginActivity;
+import com.anfly.weizixun.ui.activity.ZhihuActitivty;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 
@@ -66,7 +67,7 @@ public class DiscoveryFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), "登出失败："+s, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "登出失败：" + s, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -76,5 +77,19 @@ public class DiscoveryFragment extends Fragment {
 
             }
         });
+    }
+
+    @OnClick({R.id.cl_zhihu, R.id.cl_it, R.id.cl_tencent_news})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.cl_zhihu:
+                Intent intent = new Intent(getActivity(), ZhihuActitivty.class);
+                startActivity(intent);
+                break;
+            case R.id.cl_it:
+                break;
+            case R.id.cl_tencent_news:
+                break;
+        }
     }
 }

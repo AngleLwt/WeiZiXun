@@ -22,6 +22,7 @@ import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMGroupManager;
 import com.hyphenate.chat.EMGroupOptions;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMMessageBody;
 import com.hyphenate.exceptions.HyphenateException;
 
 import java.util.ArrayList;
@@ -74,9 +75,9 @@ public class ChatGrouopActivity extends AppCompatActivity {
                         Log.d("TAG", "run: " + emMessage.toString());
                         String to = emMessage.getTo();
                         //区分是否是这个群的消息
-//                        if (!TextUtils.isEmpty(mGroupId) && mGroupId.equals(to)) {
+                        if (!TextUtils.isEmpty(mGroupId) && mGroupId.equals(to)) {
                             arrayList.add(emMessage);
-//                        }
+                        }
                     }
 
                     //子线程
@@ -128,7 +129,7 @@ public class ChatGrouopActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
         adapter.setOnItemClick(new EMMessageAdapter.OnItemClick() {
             @Override
-            public void onItemClick(String localUrl) {
+            public void onItemClick(String localUrl, EMMessageBody emMessageBody) {
 //                playAudio(localUrl);
             }
         });

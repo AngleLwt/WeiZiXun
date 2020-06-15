@@ -194,6 +194,9 @@ public class MainActivity extends BaseActivity {
                     case R.id.item_wechat:
 
                         break;
+                    case R.id.item_map:
+
+                        break;
                     case R.id.item_group:
                         Intent intent = new Intent(MainActivity.this, ChatGrouopActivity.class);
                         startActivity(intent);

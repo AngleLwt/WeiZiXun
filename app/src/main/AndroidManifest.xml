@@ -33,7 +33,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.ChatGrouopActivity"></activity>
+        <activity android:name=".ui.activity.CalenderActivity"></activity>
+        <activity android:name=".ui.activity.ZhihuActitivty" />
+        <activity android:name=".ui.activity.WNaviGuideActivity" />
+        <activity android:name=".ui.activity.MapActivity" />
+        <activity android:name=".ui.activity.ChatGrouopActivity" />
         <activity android:name=".ui.activity.ChatActivity" />
 
         <uses-library
@@ -114,7 +118,15 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
-        </receiver>
+        </receiver> <!-- map start -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="djMd8vSmFZbhCso5N6Ah7Sd4QnhCvBDT" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
     </application>
 
 </manifest>

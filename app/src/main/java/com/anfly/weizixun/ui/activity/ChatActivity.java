@@ -1,5 +1,6 @@
 package com.anfly.weizixun.ui.activity;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,10 +20,21 @@ import com.anfly.weizixun.adapter.EMMessageAdapter;
 import com.anfly.weizixun.common.Constants;
 import com.anfly.weizixun.utils.AudioUtil;
 import com.anfly.weizixun.utils.SharedPreferencesUtils;
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationData;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMLocationMessageBody;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMMessageBody;
+import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.chat.EMVoiceMessageBody;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,7 +67,10 @@ public class ChatActivity extends AppCompatActivity {
     private EMMessageListener msgListener;
     private String mPath;
     private long mTime;
-
+    private LocationClient mLocationClient;
+    private MapView mapView;
+    private BaiduMap baiduMap;
+    private BDLocation mLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,10 +157,23 @@ public class ChatActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
         adapter.setOnItemClick(new EMMessageAdapter.OnItemClick() {
             @Override
-            public void onItemClick(String localUrl) {
-                playAudio(localUrl);
+            public void onItemClick(String localUrl, EMMessageBody emMessageBody) {
+
+                if (emMessageBody instanceof EMVoiceMessageBody) {
+                    playAudio(localUrl);
+                } else if (emMessageBody instanceof EMLocationMessageBody) {
+                    Intent intent = new Intent(ChatActivity.this, MapActivity.class);
+                    double latitude = ((EMLocationMessageBody) emMessageBody).getLatitude();
+                    double longitude = ((EMLocationMessageBody) emMessageBody).getLongitude();
+//                    intent.putExtra()
+                    startActivity(intent);
+                }
+
+
             }
         });
+
+        initLocation();
     }
 
 
@@ -167,7 +195,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.btN_send, R.id.btn_record, R.id.btn_send_audio})
+    @OnClick({R.id.btN_send, R.id.btn_record, R.id.btn_send_audio, R.id.btn_location})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btN_send:
@@ -179,6 +207,73 @@ public class ChatActivity extends AppCompatActivity {
             case R.id.btn_send_audio:
                 sendAudio();
                 break;
+            case R.id.btn_location:
+                sendLocation();
+                break;
+        }
+    }
+
+    private void sendLocation() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                double latitude = mLocation.getLatitude();
+                double longitude = mLocation.getLongitude();
+                //latitude为纬度，longitude为经度，locationAddress为具体位置内容
+                EMMessage message = EMMessage.createLocationSendMessage(latitude, longitude, "我的位置", toName);
+                //如果是群聊，设置chattype，默认是单聊
+                EMClient.getInstance().chatManager().sendMessage(message);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        list.add(message);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void initLocation() {
+        mapView = new MapView(this);
+        baiduMap = mapView.getMap();
+        baiduMap.setMyLocationEnabled(true);
+        //定位初始化
+        mLocationClient = new LocationClient(this);
+
+        //通过LocationClientOption设置LocationClient相关参数
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true); // 打开gps
+        option.setCoorType("bd09ll"); // 设置坐标类型
+        option.setScanSpan(1000);
+
+        //设置locationClientOption
+        mLocationClient.setLocOption(option);
+
+        //注册LocationListener监听器
+        MyLocationListener myLocationListener = new MyLocationListener();
+        mLocationClient.registerLocationListener(myLocationListener);
+        //开启地图定位图层
+        mLocationClient.start();
+    }
+
+    public class MyLocationListener extends BDAbstractLocationListener {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            //mapView 销毁后不在处理新接收的位置
+            if (location == null || mapView == null) {
+                return;
+            }
+
+            mLocation = location;
+            MyLocationData locData = new MyLocationData.Builder()
+                    .accuracy(location.getRadius())
+                    // 此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(location.getDirection()).latitude(location.getLatitude())
+                    .longitude(location.getLongitude()).build();
+            baiduMap.setMyLocationData(locData);
         }
     }
 

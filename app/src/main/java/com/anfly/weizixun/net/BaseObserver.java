@@ -56,6 +56,7 @@ public abstract class BaseObserver<T> extends ResourceSubscriber<T> {
 
     protected void onFail(String error) {
         Toast.makeText(WzxApplication.getApplication(), error, Toast.LENGTH_SHORT).show();
+        Log.e("TAG", error);
     }
 
     @Override
