@@ -1,8 +1,10 @@
 package com.anfly.weizixun.ui.fragment;
 
 import android.content.Intent;
+import android.database.DatabaseUtils;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,12 +13,15 @@ import com.anfly.weizixun.R;
 import com.anfly.weizixun.adapter.DailyAdapter;
 import com.anfly.weizixun.base.BaseMvpFragment;
 import com.anfly.weizixun.bean.DailyBean;
+import com.anfly.weizixun.common.Constants;
 import com.anfly.weizixun.presenter.DailyNewsPresenter;
 import com.anfly.weizixun.ui.activity.CalenderActivity;
+import com.anfly.weizixun.ui.activity.DailyNewsDetailsActivity;
 import com.anfly.weizixun.view.DailyNewsView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -51,8 +56,20 @@ public class DailyNewsFragment extends BaseMvpFragment<DailyNewsPresenter, Daily
 
     @Override
     public void onSuccess(DailyBean dailyBean) {
-        list.addAll(dailyBean.getStories());
-        banners.addAll(dailyBean.getTop_stories());
+        if (list != null) {
+            list.clear();
+        }
+        if (banners != null) {
+            banners.clear();
+        }
+        List<DailyBean.StoriesBean> stories = dailyBean.getStories();
+        if (stories != null && stories.size() > 0) {
+            list.addAll(stories);
+        }
+        List<DailyBean.TopStoriesBean> top_stories = dailyBean.getTop_stories();
+        if (top_stories != null && top_stories.size() > 0) {
+            banners.addAll(top_stories);
+        }
         adapter.notifyDataSetChanged();
     }
 
@@ -69,6 +86,18 @@ public class DailyNewsFragment extends BaseMvpFragment<DailyNewsPresenter, Daily
         banners = new ArrayList<>();
         adapter = new DailyAdapter(getActivity(), list, banners);
         rvDailyNews.setAdapter(adapter);
+        adapter.setOnItemClickListener(new DailyAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                DailyBean.StoriesBean storiesBean = list.get(position);
+                Intent intent = new Intent(getActivity(), DailyNewsDetailsActivity.class);
+                intent.putExtra(Constants.ID, storiesBean.getId());
+                intent.putExtra(Constants.TITLE, storiesBean.getTitle());
+                intent.putExtra(Constants.IMAGE, storiesBean.getImages().get(0));
+
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -80,6 +109,15 @@ public class DailyNewsFragment extends BaseMvpFragment<DailyNewsPresenter, Daily
     @OnClick(R.id.fab_daily_news)
     public void onViewClicked() {
         Intent intent = new Intent(getActivity(), CalenderActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 100);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            String date = data.getStringExtra("date");
+            mPresenter.getDailyBeforeData(date);
+        }
     }
 }

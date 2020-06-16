@@ -33,8 +33,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.CalenderActivity"></activity>
-        <activity android:name=".ui.activity.ZhihuActitivty" />
+        <activity android:name=".ui.activity.DailyNewsDetailsActivity"></activity>
+        <activity android:name=".ui.activity.CalenderActivity" />
+        <activity android:name=".ui.activity.ZhihuActitivty">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.activity.WNaviGuideActivity" />
         <activity android:name=".ui.activity.MapActivity" />
         <activity android:name=".ui.activity.ChatGrouopActivity" />
@@ -46,11 +53,7 @@
 
         <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ui.activity.MainActivity" /> <!-- umeng start -->
         <!-- 微博 -->

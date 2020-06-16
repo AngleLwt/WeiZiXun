@@ -101,5 +101,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'com.github.prolificinteractive:material-calendarview:1.6.0'
+    implementation 'org.sufficientlysecure:html-textview:3.9'
+
 
 }

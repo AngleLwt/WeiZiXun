@@ -20,6 +20,10 @@ public class DailyNewsPresenter extends BasePresenter implements DailyNewsCallBa
         model.getDailyData(this);
     }
 
+    public void getDailyBeforeData(String date) {
+        model.getDailyBeforeData(date, this);
+    }
+
     @Override
     public void onSuccess(DailyBean dailyBean) {
         mView.onSuccess(dailyBean);

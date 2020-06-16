@@ -31,6 +31,12 @@ public class DailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private int ITEM_VIEW_TYPE_TWO = 2;
     private int ITEM_VIEW_TYPE_THREE = 3;
     private final LayoutInflater inflater;
+    private OnItemClickListener onItemClickListener;
+    private int newPosition;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
     public DailyAdapter(Context context, ArrayList<DailyBean.StoriesBean> list, ArrayList<DailyBean.TopStoriesBean> banners) {
         this.context = context;
@@ -48,7 +54,7 @@ public class DailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         } else if (viewType == ITEM_VIEW_TYPE_TWO) {
             View view = inflater.inflate(R.layout.item_daily_title, parent, false);
             return new ViewHolderTitle(view);
-        } else  {
+        } else {
             View view = inflater.inflate(R.layout.item_daily_news, parent, false);
             return new ViewHolderList(view);
         }
@@ -77,27 +83,53 @@ public class DailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         } else if (viewType == ITEM_VIEW_TYPE_THREE) {
             ViewHolderList viewHolderList = (ViewHolderList) holder;
-            DailyBean.StoriesBean storiesBean = list.get(position - 2);
+            newPosition = position;
+            if (banners != null && banners.size() > 0) {
+                newPosition = position - 2;
+            } else {
+                newPosition = position - 1;
+            }
+            DailyBean.StoriesBean storiesBean = list.get(newPosition);
             viewHolderList.tvTitle.setText(storiesBean.getTitle());
             Glide.with(context).load(storiesBean.getImages().get(0)).into(viewHolderList.ivDaily);
-
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(newPosition);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return list.size() + 1 + 1;
+        if (banners != null && banners.size() > 0) {
+            return list.size() + 1 + 1;
+        }
+        return list.size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
-            return ITEM_VIEW_TYPE_ONE;
-        } else if (position == 1) {
-            return ITEM_VIEW_TYPE_TWO;
+        if (banners != null && banners.size() > 0) {
+            if (position == 0) {
+                return ITEM_VIEW_TYPE_ONE;
+            } else if (position == 1) {
+                return ITEM_VIEW_TYPE_TWO;
+            } else {
+                return ITEM_VIEW_TYPE_THREE;
+            }
         } else {
-            return ITEM_VIEW_TYPE_THREE;
+            if (position == 0) {
+                return ITEM_VIEW_TYPE_TWO;
+            } else {
+                return ITEM_VIEW_TYPE_THREE;
+            }
         }
+
     }
 
     class ViewHolderBanner extends RecyclerView.ViewHolder {
@@ -130,5 +162,9 @@ public class DailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             super(view);
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 }

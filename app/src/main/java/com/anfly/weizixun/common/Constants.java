@@ -7,4 +7,7 @@ public interface Constants {
 
     String CACHE_NAME = "cache";
     String NAME = "NAME";
+    String ID = "ID";
+    String TITLE = "TITLE";
+    String IMAGE = "IMAGE";
 }
