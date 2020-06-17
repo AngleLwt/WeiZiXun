@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.anfly.weizixun.R;
+import com.anfly.weizixun.ui.activity.ItInfoActivity;
 import com.anfly.weizixun.ui.activity.LoginActivity;
 import com.anfly.weizixun.ui.activity.ZhihuActitivty;
 import com.hyphenate.EMCallBack;
@@ -83,10 +84,10 @@ public class DiscoveryFragment extends Fragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cl_zhihu:
-                Intent intent = new Intent(getActivity(), ZhihuActitivty.class);
-                startActivity(intent);
+                startActivity(new Intent(getActivity(), ZhihuActitivty.class));
                 break;
             case R.id.cl_it:
+                startActivity(new Intent(getActivity(), ItInfoActivity.class));
                 break;
             case R.id.cl_tencent_news:
                 break;

@@ -97,11 +97,9 @@ dependencies {
     implementation files('libs/umeng-sharetool-6.9.6.jar')
     implementation files('libs/hyphenatechat_3.6.0.jar')
     implementation files('libs/BaiduLBS_Android.jar')
-
     implementation 'com.android.support:multidex:1.0.3'
-
     implementation 'com.github.prolificinteractive:material-calendarview:1.6.0'
     implementation 'org.sufficientlysecure:html-textview:3.9'
-
-
+    implementation files('libs/jcore-android-2.3.8.jar')
+    implementation files('libs/jpush-android-3.6.6.jar')
 }

@@ -3,9 +3,11 @@ package com.anfly.weizixun.net;
 import com.anfly.weizixun.bean.DailyBean;
 import com.anfly.weizixun.bean.DailyNewsDetailsBean;
 import com.anfly.weizixun.bean.HotBean;
+import com.anfly.weizixun.bean.ItInfoBean;
 import com.anfly.weizixun.bean.LoginBean;
 import com.anfly.weizixun.bean.RegisterBean;
 import com.anfly.weizixun.bean.SpecialBean;
+import com.anfly.weizixun.bean.WxArticleBean;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -19,6 +21,7 @@ import retrofit2.http.Path;
 public interface ApiService {
     String baseUrl = "http://47.110.151.50/p6/";
     String baseZhiUrl = "http://news-at.zhihu.com/";
+    String baseWanAndroidUrl = "https://www.wanandroid.com/";
 
     /**
      * 注册,
@@ -90,4 +93,21 @@ public interface ApiService {
     @GET("api/4/news/{id}")
     Flowable<DailyNewsDetailsBean> getDailyNewsDetalisData(@Path("id") int id);
 
+    /**
+     * 获取微信公众号
+     *
+     * @return
+     */
+    @GET("wxarticle/chapters/json")
+    Flowable<ItInfoBean> getItInfoData();
+
+    /**
+     * 获取公众号文章
+     *
+     * @param id
+     * @param page
+     * @return
+     */
+    @GET("wxarticle/list/{id}/{page}/json")
+    Flowable<WxArticleBean> getWxArticleData(@Path("id") int id, @Path("page") int page);
 }

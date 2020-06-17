@@ -3,6 +3,7 @@ package com.anfly.weizixun.ui.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
@@ -47,6 +49,25 @@ public class DailyNewsDetailsActivity extends BaseMvpActivity<DailyNewsDetailsPr
     @Override
     protected int getLayoutId() {
         return R.layout.activity_daily_news_details;
+    }
+
+    @Override
+    protected void initListener() {
+        super.initListener();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(fab, "我是snackbar", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("动作", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(DailyNewsDetailsActivity.this, "点击了snackbar", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
+            }
+        });
+
     }
 
     @Override
