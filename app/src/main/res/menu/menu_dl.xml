@@ -5,11 +5,14 @@
         android:title="知乎" />
     <item
         android:id="@+id/item_wechat"
-        android:title="微信精选" />
+        android:title="设置" />
     <item
         android:id="@+id/item_group"
         android:title="群聊" />
     <item
         android:id="@+id/item_map"
         android:title="地图" />
+    <item
+        android:id="@+id/item_navigation"
+        android:title="导航" />
 </menu>

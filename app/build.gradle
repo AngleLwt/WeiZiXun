@@ -102,4 +102,9 @@ dependencies {
     implementation 'org.sufficientlysecure:html-textview:3.9'
     implementation files('libs/jcore-android-2.3.8.jar')
     implementation files('libs/jpush-android-3.6.6.jar')
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+    //jsoup 解析html数据
+    implementation 'org.jsoup:jsoup:1.11.3'
+
+    implementation 'com.github.qdxxxx:StickyHeaderDecoration:1.0.1'
 }

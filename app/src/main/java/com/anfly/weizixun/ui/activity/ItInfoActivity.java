@@ -1,10 +1,11 @@
 package com.anfly.weizixun.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ItInfoActivity extends BaseMvpActivity<ItInfoPresenter, ItInfoView> implements ItInfoView {
 
@@ -82,5 +84,23 @@ public class ItInfoActivity extends BaseMvpActivity<ItInfoPresenter, ItInfoView>
         super.initView();
         fragments = new ArrayList<>();
         titles = new ArrayList<>();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+    @OnClick({R.id.iv_it, R.id.iv_search})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_it:
+                break;
+            case R.id.iv_search:
+                startActivity(new Intent(this, SearchActivity.class));
+                break;
+        }
     }
 }

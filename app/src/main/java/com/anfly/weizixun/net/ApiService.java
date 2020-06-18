@@ -5,7 +5,9 @@ import com.anfly.weizixun.bean.DailyNewsDetailsBean;
 import com.anfly.weizixun.bean.HotBean;
 import com.anfly.weizixun.bean.ItInfoBean;
 import com.anfly.weizixun.bean.LoginBean;
+import com.anfly.weizixun.bean.NaviBean;
 import com.anfly.weizixun.bean.RegisterBean;
+import com.anfly.weizixun.bean.SearchBean;
 import com.anfly.weizixun.bean.SpecialBean;
 import com.anfly.weizixun.bean.WxArticleBean;
 
@@ -110,4 +112,26 @@ public interface ApiService {
      */
     @GET("wxarticle/list/{id}/{page}/json")
     Flowable<WxArticleBean> getWxArticleData(@Path("id") int id, @Path("page") int page);
+
+    /**
+     * 搜索
+     *
+     * @param page    页码,从1开始
+     * @param keyword 关键字
+     * @return
+     */
+    @POST("article/query/{page}/json")
+    @FormUrlEncoded
+    Flowable<SearchBean> getSearchData(@Path("page") int page,
+                                       @Field("k") String keyword);
+
+    /**
+     * 获取导航数据
+     *
+     * @return
+     */
+    @GET("navi/json")
+    Flowable<NaviBean> getNaviData();
+
+
 }

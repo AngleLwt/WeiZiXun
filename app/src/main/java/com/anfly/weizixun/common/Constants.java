@@ -10,4 +10,5 @@ public interface Constants {
     String ID = "ID";
     String TITLE = "TITLE";
     String IMAGE = "IMAGE";
+    String MODE = "MODE";
 }

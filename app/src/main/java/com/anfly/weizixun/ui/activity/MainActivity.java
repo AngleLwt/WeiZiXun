@@ -1,8 +1,8 @@
 package com.anfly.weizixun.ui.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -20,18 +21,25 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.anfly.weizixun.R;
 import com.anfly.weizixun.base.BaseActivity;
+import com.anfly.weizixun.common.Constants;
 import com.anfly.weizixun.ui.fragment.ContactsFragment;
 import com.anfly.weizixun.ui.fragment.CoversationFragment;
 import com.anfly.weizixun.ui.fragment.DiscoveryFragment;
+import com.anfly.weizixun.utils.SharedPreferencesUtils;
+import com.anfly.weizixun.utils.UIModeUtil;
+import com.baidu.mapapi.search.share.ShareUrlResult;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
@@ -62,6 +70,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+        EventBus.getDefault().register(this);
+        int mode = (int) SharedPreferencesUtils.getParam(this, Constants.MODE, AppCompatDelegate.MODE_NIGHT_NO);
+        UIModeUtil.setAppMode(mode);
 
         toolbarMain.setLogo(R.mipmap.ic_launcher);
         toolbarMain.setTitle(getResources().getString(R.string.conversation));
@@ -103,9 +114,20 @@ public class MainActivity extends BaseActivity {
 
     private void initFragments() {
         fragments = new ArrayList<>();
-        fragments.add(new CoversationFragment());
-        fragments.add(new ContactsFragment());
-        fragments.add(new DiscoveryFragment());
+        CoversationFragment coversationFragment = new CoversationFragment();
+        ContactsFragment contactsFragment = new ContactsFragment();
+        DiscoveryFragment discoveryFragment = new DiscoveryFragment();
+
+        if (!fragments.contains(coversationFragment)) {
+            fragments.add(coversationFragment);
+        }
+
+        if (!fragments.contains(contactsFragment)) {
+            fragments.add(contactsFragment);
+        }
+        if (!fragments.contains(discoveryFragment)) {
+            fragments.add(discoveryFragment);
+        }
     }
 
     private void initTabs() {
@@ -192,10 +214,13 @@ public class MainActivity extends BaseActivity {
 
                         break;
                     case R.id.item_wechat:
-
+                        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                         break;
                     case R.id.item_map:
 
+                        break;
+                    case R.id.item_navigation:
+                        startActivity(new Intent(MainActivity.this, NavigationActivity.class));
                         break;
                     case R.id.item_group:
                         Intent intent = new Intent(MainActivity.this, ChatGrouopActivity.class);
@@ -206,5 +231,16 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getData(String msg) {
+        finish();
     }
 }

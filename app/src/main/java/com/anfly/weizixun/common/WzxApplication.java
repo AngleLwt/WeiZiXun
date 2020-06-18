@@ -5,6 +5,10 @@ import android.app.Application;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
+import com.anfly.weizixun.utils.SharedPreferencesUtils;
+import com.anfly.weizixun.utils.UIModeUtil;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.hyphenate.chat.EMClient;
@@ -19,6 +23,7 @@ import cn.jpush.android.api.JPushInterface;
 
 public class WzxApplication extends Application {
     private static WzxApplication application;
+    public static int mMode = AppCompatDelegate.MODE_NIGHT_NO;
 
     public static WzxApplication getApplication() {
         return application;
@@ -54,6 +59,15 @@ public class WzxApplication extends Application {
         initIm();
         initMap();
         initJpush();
+        dayNightMode();
+    }
+
+    /**
+     * app刚刚启动后，加载模式
+     */
+    private void dayNightMode() {
+        mMode = (int) SharedPreferencesUtils.getParam(this, Constants.MODE, AppCompatDelegate.MODE_NIGHT_NO);
+        UIModeUtil.setAppMode(mMode);
     }
 
     private void initJpush() {
