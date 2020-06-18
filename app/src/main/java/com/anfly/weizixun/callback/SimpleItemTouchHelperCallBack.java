@@ -13,7 +13,7 @@ public class SimpleItemTouchHelperCallBack extends ItemTouchHelper.Callback {
     }
 
     /**
-     * 获取
+     * 获取方向
      *
      * @param recyclerView
      * @param viewHolder
@@ -26,12 +26,26 @@ public class SimpleItemTouchHelperCallBack extends ItemTouchHelper.Callback {
         return makeMovementFlags(drag, swip);
     }
 
+    /**
+     * 移动
+     *
+     * @param recyclerView
+     * @param viewHolder
+     * @param target
+     * @return
+     */
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
         callBack.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
         return true;
     }
 
+    /**
+     * 删除
+     *
+     * @param viewHolder
+     * @param direction
+     */
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         callBack.onItemDelete(viewHolder.getAdapterPosition());

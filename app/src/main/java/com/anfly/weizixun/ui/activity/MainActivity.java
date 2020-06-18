@@ -70,6 +70,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+
         EventBus.getDefault().register(this);
         int mode = (int) SharedPreferencesUtils.getParam(this, Constants.MODE, AppCompatDelegate.MODE_NIGHT_NO);
         UIModeUtil.setAppMode(mode);

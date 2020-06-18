@@ -1,6 +1,7 @@
 package com.anfly.weizixun.adapter;
 
 import android.content.Context;
+import android.text.method.Touch;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.anfly.weizixun.R;
 import com.anfly.weizixun.bean.ITTabBean;
+import com.anfly.weizixun.bean.ItInfoBean;
 import com.anfly.weizixun.callback.TouchCallBack;
 
 import java.util.ArrayList;
@@ -21,11 +23,11 @@ import java.util.Collections;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ItTabChooseAdapter extends RecyclerView.Adapter<ItTabChooseAdapter.ViewHolder> implements TouchCallBack {
+public class ItInfoTabUpdataAdapter extends RecyclerView.Adapter<ItInfoTabUpdataAdapter.ViewHolder> implements TouchCallBack {
     private Context context;
     private ArrayList<ITTabBean> list;
 
-    public ItTabChooseAdapter(Context context, ArrayList<ITTabBean> list) {
+    public ItInfoTabUpdataAdapter(Context context, ArrayList<ITTabBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -33,21 +35,22 @@ public class ItTabChooseAdapter extends RecyclerView.Adapter<ItTabChooseAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(context).inflate(R.layout.item_tab_choose, parent, false);
-        ViewHolder viewHolder = new ViewHolder(inflate);
-        return viewHolder;
+        View view = LayoutInflater.from(context).inflate(R.layout.item_tab_choose, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ITTabBean ITTabBean = list.get(position);
-        holder.name.setText(ITTabBean.getName());
-        holder.sw.setChecked(ITTabBean.isShow());
+        ITTabBean itTabBean = list.get(position);
+        holder.name.setText(itTabBean.getName());
+        holder.sw.setChecked(itTabBean.isShow());
 
         holder.sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                ITTabBean.setShow(b);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isPressed()) {
+                    itTabBean.setShow(isChecked);
+                }
             }
         });
     }
@@ -70,15 +73,13 @@ public class ItTabChooseAdapter extends RecyclerView.Adapter<ItTabChooseAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         @BindView(R.id.name)
         TextView name;
         @BindView(R.id.sw)
         SwitchCompat sw;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             ButterKnife.bind(this, itemView);
         }
     }

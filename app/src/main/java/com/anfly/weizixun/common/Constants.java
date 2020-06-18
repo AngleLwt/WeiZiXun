@@ -11,4 +11,5 @@ public interface Constants {
     String TITLE = "TITLE";
     String IMAGE = "IMAGE";
     String MODE = "MODE";
+    String LIST = "list";
 }

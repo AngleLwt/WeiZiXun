@@ -54,7 +54,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.SettingsActivity"></activity>
+        <activity android:name=".ui.activity.ItInfoTabUpdataActivity"></activity>
+        <activity android:name=".ui.activity.SettingsActivity" />
         <activity android:name=".ui.activity.SearchActivity" />
         <activity android:name=".ui.activity.NavigationActivity" />
         <activity android:name=".ui.activity.ItInfoActivity" />
