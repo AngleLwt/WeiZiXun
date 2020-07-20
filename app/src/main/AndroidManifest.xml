@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.anfly.weizixun">
+    package="com.wentuo.weizixun">
     <!-- Required -->
     <permission
-        android:name="com.anfly.weizixun.permission.JPUSH_MESSAGE"
+        android:name="com.wentuo.weizixun.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" /> <!-- Required -->
     <uses-permission android:name="com.anfly.weizixun.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
@@ -46,7 +46,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name=".common.WzxApplication"
+        android:name="com.wentuo.weizixun.common.WzxApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -54,29 +54,29 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.ItInfoTabUpdataActivity"></activity>
-        <activity android:name=".ui.activity.SettingsActivity" />
-        <activity android:name=".ui.activity.SearchActivity" />
-        <activity android:name=".ui.activity.NavigationActivity" />
-        <activity android:name=".ui.activity.ItInfoActivity" />
-        <activity android:name=".ui.activity.ItTabChooseActivity" />
-        <activity android:name=".ui.activity.ItActivity" />
-        <activity android:name=".ui.activity.SmartActivity" />
-        <activity android:name=".ui.activity.DailyNewsDetailsActivity" />
-        <activity android:name=".ui.activity.CalenderActivity" />
-        <activity android:name=".ui.activity.ZhihuActitivty" />
-        <activity android:name=".ui.activity.WNaviGuideActivity" />
-        <activity android:name=".ui.activity.MapActivity" />
-        <activity android:name=".ui.activity.ChatGrouopActivity" />
-        <activity android:name=".ui.activity.ChatActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.ItInfoTabUpdataActivity"></activity>
+        <activity android:name="com.wentuo.weizixun.ui.activity.SettingsActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.SearchActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.NavigationActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.ItInfoActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.ItTabChooseActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.ItActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.SmartActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.DailyNewsDetailsActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.CalenderActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.ZhihuActitivty" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.WNaviGuideActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.MapActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.ChatGrouopActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.ChatActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".ui.activity.RegisterActivity" />
-        <activity android:name=".ui.activity.LoginActivity" />
-        <activity android:name=".ui.activity.MainActivity">
+        <activity android:name="com.wentuo.weizixun.ui.activity.RegisterActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.LoginActivity" />
+        <activity android:name="com.wentuo.weizixun.ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -105,7 +105,7 @@
             </intent-filter>
         </activity> <!-- 微信 -->
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.wentuo.weizixun.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- qq -->
@@ -172,7 +172,7 @@
         </service> <!-- since 3.0.9 Required SDK 核心功能 -->
         <provider
             android:name="cn.jpush.android.service.DataProvider"
-            android:authorities="com.anfly.weizixun.DataProvider"
+            android:authorities="com.wentuo.weizixun.DataProvider"
             android:exported="true" /> <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的 JPush 服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，或把 enabled 设置成 false ；App 不会被其他 App 拉起，但会拉起其他的 App。 -->
         <service
@@ -187,7 +187,7 @@
         </service> <!-- since 3.1.0 Required SDK 核心功能 -->
         <provider
             android:name="cn.jpush.android.service.DownloadProvider"
-            android:authorities="com.anfly.weizixun.DownloadProvider"
+            android:authorities="com.wentuo.weizixun.DownloadProvider"
             android:exported="true" /> <!-- Required SDK 核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
@@ -253,7 +253,7 @@
         <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
         <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->
         <service
-            android:name=".service.JPushCommonService"
+            android:name="com.wentuo.weizixun.service.JPushCommonService"
             android:enabled="true"
             android:exported="false"
             android:process=":pushcore">
@@ -266,7 +266,7 @@
         <!-- 3.3.0开始所有事件将通过该类回调 -->
         <!-- 该广播需要继承 JPush 提供的 JPushMessageReceiver 类, 并如下新增一个 Intent-Filter -->
         <receiver
-            android:name=".receiver.JPMessageReceiver"
+            android:name="com.wentuo.weizixun.receiver.JPMessageReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -278,7 +278,7 @@
         <!-- 这是3.3.0之前版本的接收方式，3.3.0开始是通过继承 JPushMessageReceiver并配置来接收所有事件回调。 -->
         <!-- 如果仍然需要在这个Receiver里接收，需要在JPushMessageReceiver 的子类里不重写对应的回调方法，或者重写方法且调用super -->
         <receiver
-            android:name=".receiver.WeizixunReceiver"
+            android:name="com.wentuo.weizixun.receiver.WeizixunReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
